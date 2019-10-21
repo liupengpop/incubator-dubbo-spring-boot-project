@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
   Licensed to the Apache Software Foundation (ASF) under one or more
   contributor license agreements.  See the NOTICE file distributed with
@@ -19,70 +20,80 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.sonatype.oss</groupId>
-        <artifactId>oss-parent</artifactId>
-        <version>7</version>
+        <groupId>org.apache</groupId>
+        <artifactId>apache</artifactId>
+        <version>19</version>
     </parent>
 
-    <groupId>com.alibaba.boot</groupId>
+    <groupId>org.apache.dubbo</groupId>
     <artifactId>dubbo-spring-boot-project</artifactId>
-    <version>0.1.0</version>
+    <version>${revision}</version>
 
     <packaging>pom</packaging>
 
-    <name>Dubbo Spring Boot Project</name>
-    <description>Dubbo Spring Boot Project</description>
-    <url>https://github.com/dubbo/dubbo-spring-boot-project</url>
+    <name>Apache Dubbo Spring Boot Project</name>
+    <description>Apache Dubbo Spring Boot Project</description>
+    <url>https://github.com/apache/dubbo-spring-boot-project</url>
+
+    <properties>
+        <maven_javadoc_version>3.0.1</maven_javadoc_version>
+        <maven_surefire_version>2.19.1</maven_surefire_version>
+        <revision>2.7.3</revision>
+    </properties>
 
     <modules>
         <module>dubbo-spring-boot-parent</module>
+        <module>dubbo-spring-boot-distribution</module>
         <module>dubbo-spring-boot-autoconfigure</module>
         <module>dubbo-spring-boot-starter</module>
-        <module>dubbo-spring-boot-samples</module>
         <module>dubbo-spring-boot-actuator</module>
+        <module>dubbo-spring-boot-compatible</module>
+        <module>dubbo-spring-boot-samples</module>
     </modules>
 
-
     <organization>
-        <name>Alibaba Group.</name>
-        <url>http://www.alibabagroup.com/en/global/home</url>
+        <name>The Apache Software Foundation</name>
+        <url>http://www.apache.org/</url>
     </organization>
 
     <scm>
-        <url>https://github.com/dubbo/dubbo-spring-boot-project</url>
-        <connection>scm:git:git:////github.com/dubbo/dubbo-spring-boot-project.git</connection>
-        <developerConnection>scm:git:ssh://git@//github.com/dubbo/dubbo-spring-boot-project.git</developerConnection>
+        <url>https://github.com/apache/dubbo-spring-boot-project</url>
+        <connection>scm:git:git:////github.com/apache/dubbo-spring-boot-project.git</connection>
+        <developerConnection>scm:git:ssh://git@//github.com/apache/dubbo-spring-boot-project.git
+        </developerConnection>
     </scm>
 
     <issueManagement>
         <system>Github</system>
-        <url>https://github.com/dubbo/dubbo-spring-boot-project/issues</url>
+        <url>https://github.com/apache/dubbo-spring-boot-project/issues</url>
     </issueManagement>
 
     <mailingLists>
         <mailingList>
-            <name>Dubbo User Mailling List</name>
-            <subscribe>dubbo+subscribe@googlegroups.com</subscribe>
-            <unsubscribe>dubbo+unsubscribe@googlegroups.com</unsubscribe>
-            <post>dubbo@googlegroups.com</post>
-            <archive>http://groups.google.com/group/dubbo</archive>
+            <name>Development List</name>
+            <subscribe>dev-subscribe@dubbo.apache.org</subscribe>
+            <unsubscribe>dev-unsubscribe@dubbo.apache.org</unsubscribe>
+            <post>dev@dubbo.apache.org</post>
         </mailingList>
         <mailingList>
-            <name>Dubbo Developer Mailling List</name>
-            <subscribe>dubbo-developers+subscribe@googlegroups.com</subscribe>
-            <unsubscribe>dubbo-developers+unsubscribe@googlegroups.com</unsubscribe>
-            <post>dubbo-developers@googlegroups.com</post>
-            <archive>http://groups.google.com/group/dubbo-developers</archive>
+            <name>Commits List</name>
+            <subscribe>commits-subscribe@dubbo.apache.org</subscribe>
+            <unsubscribe>commits-unsubscribe@dubbo.apache.org</unsubscribe>
+            <post>commits@dubbo.apache.org</post>
+        </mailingList>
+        <mailingList>
+            <name>Issues List</name>
+            <subscribe>issues-subscribe@dubbo.apache.org</subscribe>
+            <unsubscribe>issues-unsubscribe@dubbo.apache.org</unsubscribe>
+            <post>issues@dubbo.apache.org</post>
         </mailingList>
     </mailingLists>
     <developers>
         <developer>
-            <id>dubbo.io</id>
-            <name>The Dubbo Project Contributors</name>
-            <email>dubbo@googlegroups.com</email>
-            <url>http://dubbo.io</url>
-            <organization>The Dubbo Project</organization>
-            <organizationUrl>http://dubbo.io</organizationUrl>
+            <id>Apache Dubbo </id>
+            <name>The Apache Dubbo  Project Contributors</name>
+            <email>dev@dubbo.apache.org</email>
+            <url>http://dubbo.apache.org</url>
         </developer>
     </developers>
 
@@ -103,6 +114,7 @@
                             </execution>
                         </executions>
                     </plugin>
+
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
@@ -115,9 +127,65 @@
                             </execution>
                         </executions>
                     </plugin>
+                  
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>flatten-maven-plugin</artifactId>
+                        <version>1.1.0</version>
+                        <configuration>
+                            <updatePomFile>true</updatePomFile>
+                            <flattenMode>resolveCiFriendliesOnly</flattenMode>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>flatten</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>flatten</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>flatten.clean</id>
+                                <phase>clean</phase>
+                                <goals>
+                                    <goal>clean</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
                 </plugins>
             </build>
         </profile>
     </profiles>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <version>1.1.0</version>
+                <configuration>
+                    <updatePomFile>true</updatePomFile>
+                    <flattenMode>resolveCiFriendliesOnly</flattenMode>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
